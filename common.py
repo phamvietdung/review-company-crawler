@@ -43,6 +43,10 @@ def extract_text_by_pattern(soup, pattern):
     import re
     return soup.find_all(text=re.compile(pattern))
 
+def json_serilize_data(data):
+    import json
+    return json.dumps(data, ensure_ascii=False)
+
 def extract_text_from_text_by_pattern(text_content, patterns):
     import re
     # result = []

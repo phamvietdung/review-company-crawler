@@ -1,6 +1,5 @@
 import mysql.connector
 from dotenv import load_dotenv
-from common import get_hash
 import os
 
 load_dotenv()
@@ -19,12 +18,14 @@ create_table = """
 CREATE TABLE Reviews 
 (
 	Id INT AUTO_INCREMENT PRIMARY KEY,
+    JsonRawData nvarchar(4000) NULL,
     CompanyName nvarchar(500) NULL,
     Salary nvarchar(500) NULL,
     Position nvarchar(500) NULL,
     `Year` nvarchar(500) NULL,
     Other nvarchar(2000) NULL,
-    `Hash` nvarchar(100) NULL
+    `Hash` nvarchar(100) NULL,
+    IsReviewed bit NOT NULL DEFAULT 0
 )
 
 CREATE TABLE `Logs`
@@ -44,15 +45,15 @@ CREATE TABLE Settings
 
 # mycursor.execute(create_table)
 
-def insert_review(CompanyName, Salary, Position, Year, Other, Hash):
+def insert_review(CompanyName, Salary, Position, Year, Other, Hash, JsonRawData):
 
     mycursor.execute("SELECT * FROM Reviews WHERE Hash = %s", (Hash,))
     if mycursor.fetchone() != None:
         # print("Review already exists, aborting")
         return
 
-    sql = "INSERT INTO Reviews (CompanyName, Salary, Position, `Year`, Other, Hash) VALUES (%s, %s, %s, %s, %s, %s)"
-    val = (CompanyName, Salary, Position, Year, Other, Hash)
+    sql = "INSERT INTO Reviews (CompanyName, Salary, Position, `Year`, Other, Hash, JsonRawData) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+    val = (CompanyName, Salary, Position, Year, Other, Hash, JsonRawData)
     mycursor.execute(sql, val)
     mydb.commit()
 
