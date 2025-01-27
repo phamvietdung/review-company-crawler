@@ -25,7 +25,8 @@ CREATE TABLE Reviews
     `Year` nvarchar(500) NULL,
     Other nvarchar(2000) NULL,
     `Hash` nvarchar(100) NULL,
-    IsReviewed bit NOT NULL DEFAULT 0
+    IsReviewed bit NOT NULL DEFAULT 0,
+    IsHidden BIT NOT NULL DEFAULT 0
 )
 
 CREATE TABLE `Logs`
